@@ -1,4 +1,6 @@
-﻿namespace FsCodeBusiness.Results
+﻿using FsCodeDomain.Entities;
+
+namespace FsCodeBusiness.Results
 {
     public class ServiceResult
     {

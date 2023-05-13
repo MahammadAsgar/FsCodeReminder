@@ -4,6 +4,7 @@ using FsCodeBusiness.Results;
 using FsCodeBusiness.Services.Entities.Abstractions;
 using FsCodeBusiness.Services.Mail;
 using FsCodeBusiness.Services.Telegram;
+using FsCodeDomain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FsCodeApi.Controllers

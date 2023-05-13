@@ -12,16 +12,13 @@ namespace FsCodeBusiness.Services.Telegram
             _telegramBotClient = new TelegramBotClient("5930057337:AAE6rHnNLZMwWt3sV9DnZRsTIXVaVV7iyXs");
         }
 
-        public async Task<ServiceResult> SendMesssage(string to, string content)
+        public async Task SendMesssage(string to, string content)
         {
             var token = "5930057337:AAE6rHnNLZMwWt3sV9DnZRsTIXVaVV7iyXs";
             string url = $"https://api.telegram.org/bot{token}/sendMessage?chat_id=@mahammad_asgarli&text={content}";
             Uri uri = new Uri(url);
             WebClient webClient = new WebClient();
             var body = webClient.DownloadString(uri);
-
-
-            return new ServiceResult(true, body);
         }
     }
 }

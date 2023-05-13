@@ -10,9 +10,10 @@ namespace FsCodeBusiness.Mapping
     {
         public MapProfile()
         {
-            CreateMap<Reminder, ReminderGet>().ReverseMap();
             CreateMap<Reminder, ReminderPost>().ReverseMap();
             CreateMap<Reminder, ReminderPut>().ReverseMap();
+            CreateMap<Reminder, ReminderGet>()
+                .ForMember(x => x.SendAt, y => y.MapFrom(z => z.SendAt.ToString("MM/dd/yyyy"))).ReverseMap();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace FsCodeBusiness
     {
         public static void AddBusinessServices(this IServiceCollection services)
         {
-            services.AddScoped<IReminderService, ReminderService>();
+            services.AddScoped<IReminderService,ReminderService>();
             services.AddScoped<ITelegramService, TelegramService>();
             services.AddScoped<IMailService, MailService>();
 

@@ -4,6 +4,6 @@ namespace FsCodeBusiness.Services.Telegram
 {
     public interface ITelegramService
     {
-        Task<ServiceResult> SendMesssage(string to, string content);
+        Task SendMesssage(string to, string content);
     }
 }

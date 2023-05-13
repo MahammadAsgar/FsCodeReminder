@@ -23,11 +23,15 @@ namespace FsCodeBusiness.Services.Entities.Implementations
         }
         public async Task<ServiceResult> AddReminder(ReminderPost reminderPost)
         {
-            var reminder = _mapper.Map<Reminder>(reminderPost);
-            reminder.IsActive = true;
-            await _unitOfWork.Repository<Reminder>().AddAsync(reminder);
-            _unitOfWork.Commit();
-            return new ServiceResult(true);
+            if ((reminderPost.SendAt - DateTime.Now).Days > 1 && (reminderPost.SendAt > DateTime.Now))
+            {
+                var reminder = _mapper.Map<Reminder>(reminderPost);
+                reminder.IsActive = true;
+                await _unitOfWork.Repository<Reminder>().AddAsync(reminder);
+                _unitOfWork.Commit();
+                return new ServiceResult(true);
+            }
+            return new ServiceResult(false);
         }
 
         public async Task<ServiceResult> DeleteReminder(int id)
@@ -64,17 +68,6 @@ namespace FsCodeBusiness.Services.Entities.Implementations
             return new ServiceResult(false);
         }
 
-        public async Task<ServiceResult> GetActiveReminders()
-        {
-            var reminders = await _reminderRepository.GetActiveReminders();
-            if (reminders != null)
-            {
-                var response = _mapper.Map<IEnumerable<ReminderGet>>(reminders);
-                return new ServiceResult(true, response);
-            }
-            return new ServiceResult(false);
-        }
-
         public async Task<ServiceResult> UpdateReminder(int id, ReminderPut reminderPut)
         {
             var reminder = await _reminderRepository.GetReminder(id);
@@ -95,9 +88,16 @@ namespace FsCodeBusiness.Services.Entities.Implementations
                     reminder.Method = reminderPut.Method;
                 }
 
-                if (reminderPut.SendAt != null)
+                if ((reminderPut.SendAt.HasValue))
                 {
-                    reminder.SendAt = reminderPut.SendAt.Value;
+                    if ((reminderPut.SendAt.Value > DateTime.Now) && ((reminderPut.SendAt.Value - DateTime.UtcNow).Minutes > 1))
+                    {
+                        reminder.SendAt = reminderPut.SendAt.Value;
+                    }
+                    else
+                    {
+                        throw new Exception("SentAt is not suitable");
+                    }
                 }
                 _unitOfWork.Repository<Reminder>().Update(reminder);
                 _unitOfWork.Commit();
@@ -105,5 +105,17 @@ namespace FsCodeBusiness.Services.Entities.Implementations
             }
             return new ServiceResult(false);
         }
+
+        public async Task<ServiceResult> GetActiveReminders()
+        {
+            var reminders = await _reminderRepository.GetActiveReminders();
+            if (reminders != null)
+            {
+                var response = _mapper.Map<IEnumerable<ReminderGet>>(reminders);
+                return new ServiceResult(true, response);
+            }
+            return new ServiceResult(false);
+        }
+
     }
 }
