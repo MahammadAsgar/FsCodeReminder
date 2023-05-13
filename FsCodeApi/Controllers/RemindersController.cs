@@ -14,13 +14,10 @@ namespace FsCodeApi.Controllers
     public class RemindersController : ControllerBase
     {
         readonly IReminderService _reminderService;
-        readonly ITelegramService _telegramService;
-        readonly IMailService _mailService;
-        public RemindersController(IReminderService reminderService, ITelegramService telegramService, IMailService mailService)
+
+        public RemindersController(IReminderService reminderService)
         {
             _reminderService = reminderService;
-            _telegramService = telegramService;
-            _mailService = mailService;
         }
 
         [HttpPost]
@@ -52,7 +49,7 @@ namespace FsCodeApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResult>> GetReminders()
+        public async Task<ActionResult<ServiceResult>> GetAllReminders()
         {
             var response = await _reminderService.GetReminders();
             return Ok(response);

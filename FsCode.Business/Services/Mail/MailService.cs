@@ -17,10 +17,10 @@ namespace FsCodeBusiness.Services.Email
 
             mail.Subject = "Reminder";
             mail.Body = content;
-            mail.From = new MailAddress("mahammadasgarli59@gmail.com", "Mahammad Asgarli", System.Text.Encoding.UTF8);
+            mail.From = new MailAddress("asgarlimahammad1@gmail.com", "Mahammad Asgarli", System.Text.Encoding.UTF8);
             mail.To.Add(to);
             SmtpClient smtp = new();
-            smtp.Credentials = new NetworkCredential("mahammadasgarli59@gmail.com", "Qeyrimueyyendunya");
+            smtp.Credentials = new NetworkCredential("asgarlimahammad1@gmail.com", "Asgarli670");
             smtp.Port = 587;
             smtp.Host = "smtp.office365.com";
             smtp.EnableSsl = true;
